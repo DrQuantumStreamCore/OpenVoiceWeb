@@ -1,5 +1,3 @@
-# OpenVoiceWeb
-
 # OpenVoiceWeb (OVW) 📞🌐
 
 **An Open-Source SIP/DTMF-to-Semantic-Web Audio Browser Engine for Visually Impaired Keypad Phone Users**
