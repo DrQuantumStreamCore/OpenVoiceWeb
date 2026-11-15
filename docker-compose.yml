@@ -1,0 +1,36 @@
+services:
+  ovw-core:
+    build: .
+    container_name: ovw-core-orchestrator
+    restart: unless-stopped
+    env_file:
+      - .env.example
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis-cache
+      - piper-tts
+    networks:
+      - ovw-net
+
+  redis-cache:
+    image: redis:7.2-alpine
+    container_name: ovw-audio-cache
+    restart: unless-stopped
+    command: redis-server --save "" --appendonly no --maxmemory 512mb --maxmemory-policy allkeys-lru
+    networks:
+      - ovw-net
+
+  piper-tts:
+    image: rhasspy/wyoming-piper:latest
+    container_name: ovw-piper-tts
+    restart: unless-stopped
+    command: --voice en_US-lessac-medium --uri tcp://0.0.0.0:10200
+    ports:
+      - "10200:10200"
+    networks:
+      - ovw-net
+
+networks:
+  ovw-net:
+    driver: bridge
